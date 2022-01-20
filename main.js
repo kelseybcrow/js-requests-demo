@@ -61,3 +61,25 @@ const getOneChar = (evt) => {
 charBtns.forEach((elem) => {
   elem.addEventListener("click", getOneChar);
 });
+
+const submitNewChar = (evt) => {
+  evt.preventDefault();
+
+  const body = {
+    firstName: newFirstInput.value,
+    lastName: newLastInput.value,
+    gender: newGenderDropDown.value,
+    age: newAgeInput.value,
+    likes: newLikesText.value.split(","),
+  };
+
+  axios
+    .post(baseURL + "/character", body)
+    .then((res) => {
+      clearCharacters();
+      res.data.forEach((elem) => createCharacterCard(elem));
+    })
+    .catch((err) => console.log(err));
+};
+
+createForm.addEventListener("submit", submitNewChar);
